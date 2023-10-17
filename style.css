@@ -10,7 +10,7 @@ body{
 
 #slide-container {
     width: 75%;
-    height: 85%;
+    height: 80%;
     position: absolute;
     left: 50%;
     top: 10%;
@@ -137,16 +137,19 @@ button {
     color: #ffffff;
     border: none;
     cursor: pointer;
-    top: 50%;
+    top: 40%;
 }
 
 button:hover {
-    opacity: 0.7; /* Reduce opacity on hover */
-  }
-
+    opacity: 0.7; 
+}
 
 .next-button-class {
     right: 3%;
+}
+
+.prev-button-class {
+    left: 3%;
 }
 .start-button-class {
     left: 50%;
@@ -163,7 +166,7 @@ button:hover {
 @keyframes slideInFromRight {
     0% {
         opacity: 0;
-      transform: translateX(-100%);
+      transform: translateX(-60%);
     }
     100% {
         opacity: 1;
@@ -171,17 +174,16 @@ button:hover {
     }
 }
 
-@keyframes slideInFromLeft{
+@keyframes slideInFromLeft {
     0% {
         opacity: 0;
-      transform: translateX(100%);
+        transform: translateX(-40%);
     }
     100% {
         opacity: 1;
-      transform: translateX(-50%);
+        transform: translateX(-50%);
     }
 }
-
   
 .slideRight {
     animation: slideInFromRight 0.5s ease;
