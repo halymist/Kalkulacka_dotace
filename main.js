@@ -1,4 +1,4 @@
-import { tables, HeadlineNames } from "./tabulky.js";
+import { tables, HeadlineNames, poctyHeader } from "./tabulky.js";
 
 let currentSlide = 1;
 const parentContainer = document.getElementById("slide-container");
@@ -223,12 +223,17 @@ function createTable(tableData, numberOfColumns) {
 
   const tableHead = document.createElement('thead');
   const headerRow = document.createElement('tr');
-
+  let plochaOrPocet;
+  if (poctyHeader.includes(currentSlide)) {
+    plochaOrPocet = 'Počet'
+  } else {
+    plochaOrPocet = 'Plocha'
+  }
   let headers;
   if (numberOfColumns == 4) {
-    headers = ['Titul', sazba, 'Plocha', 'Výpočet'];
+    headers = ['Titul', sazba, plochaOrPocet, 'Výpočet'];
   } else {
-    headers = ['Intervence','Titul', sazba , 'Plocha', 'Výpočet'];
+    headers = ['Intervence','Titul', sazba , plochaOrPocet, 'Výpočet'];
   }
   const columnWidths = (numberOfColumns === 4) ? ['40%', '20%', '20%', '20%'] : ['30%', '30%', '10%', '20%', '15%'];
 
@@ -280,6 +285,7 @@ function createTable(tableData, numberOfColumns) {
           td.textContent = row[i] ?? '';
           break;
         case 'Plocha':
+        case 'Počet':
           if (currentSlide === 2) {
             numberOfGeneratedInputs = numberOfGeneratedInputs + 1
             if (numberOfGeneratedInputs > 1) {
@@ -354,10 +360,32 @@ function updateDisabledInputsValue(plochaInput) {
     const intervenceElement = row.closest('tr').querySelector('.intervence');
     const disabledInput = row.querySelector('.plochaInput input:disabled');
     if (disabledInput) {
-      if (!mladyZemedelec && intervenceElement.textContent === 'Mladí zemědělci' || (!malyZemedelec && intervenceElement.textContent === 'Malý subjekt')) {
-        disabledInput.value = 0;
-      } else {
-        disabledInput.value = plochaInput.value
+      if (intervenceElement.textContent === 'Mladí zemědělci') {
+        if (!mladyZemedelec) {
+          disabledInput.value = 0;
+        } else {
+          if (plochaInput.value > 90) {
+            disabledInput.value = 90;
+          } else {
+            disabledInput.value = plochaInput.value;
+          }
+        }
+      } else if (intervenceElement.textContent === 'Malý subjekt') {
+        if (!malyZemedelec) {
+          disabledInput.value = 0;
+        } else {
+          if (plochaInput.value > 4) {
+            disabledInput.value = 4;
+          } else {
+            disabledInput.value = plochaInput.value;
+          }
+        }
+      } else if (intervenceElement.textContent === 'Redistributivní platba') {
+        if (plochaInput.value > 150) {
+          disabledInput.value = 150;
+        } else {
+          disabledInput.value = plochaInput.value;
+        }
       }
     }
   });
@@ -604,14 +632,21 @@ const resultSlide = savedSlides.find(savedSlide => savedSlide.slideNumber == 2);
 const tableData = resultSlide.slideData.tableData;
 console.log(tableData)
 
+
 const table = document.createElement('table');
 table.id = 'Pilir1';
 
 // Create the table header
 const thead = document.createElement('thead');
-const headerRow = thead.insertRow();
 
-// Create header cells
+const titleRow = thead.insertRow();
+const titleCell = document.createElement('th');
+titleCell.textContent = "Pilíř I"; 
+titleCell.colSpan = 2; 
+titleCell.classList.add('tableName');
+titleRow.appendChild(titleCell);
+
+const headerRow = thead.insertRow();
 const headerCell1 = document.createElement('th');
 headerCell1.textContent = "Titul";
 headerRow.appendChild(headerCell1);
@@ -619,6 +654,7 @@ headerRow.appendChild(headerCell1);
 const headerCell2 = document.createElement('th');
 headerCell2.textContent = "Výsledek";
 headerRow.appendChild(headerCell2);
+
 
 // Append the header to the table
 table.appendChild(thead);
@@ -647,6 +683,14 @@ function tableResults2(slideResults, tableContainer) {
 
   // Create the table header with two columns: Slide Number and Result
   const thead = document.createElement('thead');
+
+  const titleRow = thead.insertRow();
+  const titleCell = document.createElement('th');
+  titleCell.textContent = "Pilíř II"; 
+  titleCell.colSpan = 2; 
+  titleCell.classList.add('tableName');
+  titleRow.appendChild(titleCell);
+
   const headerRow = thead.insertRow();
   const slideNumberHeader = document.createElement('th');
   slideNumberHeader.textContent = 'Titul';

@@ -103,10 +103,17 @@ input[type="number"] {
     text-align: left;
 }
 #Pilir2 {
-    flex: 70%;
+    flex: 50%;
     align-self: flex-start; 
     text-align: left;
   }
+
+.tableName {
+    text-align: center; /* Center the text horizontally */
+    padding-bottom: 15px; /* Add padding below the text */
+    font-size: 1.7rem; 
+  }
+
 .titul {
     cursor: pointer;
 }
