@@ -134,15 +134,17 @@ function updateButtons() {
     prevButton.style.display = "none";
     prevButton.disabled = true;
     prevButton.classList.add("prev-button-class");
-    nextButton.classList.remove("next-button-class"); // Remove the old class
-    nextButton.classList.add("start-button-class"); // Add the new class
+    nextButton.classList.remove("next-button-class"); 
+    nextButton.classList.add("start-button-class"); 
     nextButton.textContent = "Start";
+    parentContainer.appendChild(nextButton);
   } else if (currentSlide == 2) {
     prevButton.style.display = "block";
     prevButton.disabled = false;
     nextButton.classList.remove("start-button-class"); // Remove the old class
     nextButton.classList.add("next-button-class");
     nextButton.textContent = "Další";
+    document.body.appendChild(nextButton);
   } else if ((Object.keys(tables)).length === currentSlide - 2) {
     nextButton.style.display = "none";
     nextButton.disabled = true;
@@ -274,7 +276,10 @@ function createTable(tableData, numberOfColumns) {
           break;
         case 'Titul':
           td.className = 'titul';
-          td.textContent = row[i] ?? '';
+          const div = document.createElement('div');
+          div.textContent = row[i] ?? '';
+          div.id = 'Titul_jmeno'; // Replace 'your_id_here' with the desired ID
+          td.appendChild(div);
           break;
         case 'EUR':
           td.className = 'sazbaValue';
@@ -570,7 +575,7 @@ function Results() {
   });
 
   const pilir1 = document.getElementById('vysledekPilir1');
-  pilir1.textContent = sum1;
+  pilir1.textContent = sum1.toFixed(2);;
 
   //table Pilir 2
   const table2 = document.getElementById('Pilir2');
@@ -582,10 +587,10 @@ function Results() {
   });
 
   const pilir2 = document.getElementById('vysledekPilir2');
-  pilir2.textContent = sum2;
+  pilir2.textContent = sum2.toFixed(2);;
 
   const celkem = document.getElementById('Celkem');
-  celkem.textContent = sum1 + sum2;
+  celkem.textContent = (sum1 + sum2).toFixed(2);
 }
   
 
@@ -711,7 +716,7 @@ function tableResults2(slideResults, tableContainer) {
       slideNumberCell.textContent = HeadlineNames[result.slideNumber - 2];
       const resultCell = row.insertCell();
       resultCell.classList.add('Vysledek');
-      resultCell.textContent = result.result;
+      resultCell.textContent = result.result.toFixed(2);
     }
   });
 
