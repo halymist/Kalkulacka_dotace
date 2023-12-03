@@ -463,13 +463,38 @@ function saveSlide() {
 }
 
 function calculate(td, plochaInput) {
-  const sazbaValue = parseFloat(td.previousElementSibling.textContent.replace(',', '.'));
-  const inputValue = parseFloat(plochaInput.value);
-  
-  if (!isNaN(sazbaValue) && !isNaN(inputValue)) {
-    const result = (sazbaValue * inputValue).toFixed(2);
-    td.nextElementSibling.textContent = result;
+
+  if (currentSlide == 5) {
+    let allInputs = document.querySelectorAll('td input[type="number"]');
+    let sum = 0;
+    for (let input of allInputs) {
+      let value = parseFloat(input.value) || 0;
+      if (value != 0) {
+        console.log(input)
+      }
+      sum += value
+    } 
+    if (sum <= 300) {
+      const sazbaValue = parseFloat(td.previousElementSibling.textContent.replace(',', '.'));
+      const inputValue = parseFloat(plochaInput.value);
+      
+      if (!isNaN(sazbaValue) && !isNaN(inputValue)) {
+        const result = (sazbaValue * inputValue).toFixed(2);
+        td.nextElementSibling.textContent = result;
+      }
+    } else {
+      console.log(sum);
+    }
+  } else {
+    const sazbaValue = parseFloat(td.previousElementSibling.textContent.replace(',', '.'));
+    const inputValue = parseFloat(plochaInput.value);
+    
+    if (!isNaN(sazbaValue) && !isNaN(inputValue)) {
+      const result = (sazbaValue * inputValue).toFixed(2);
+      td.nextElementSibling.textContent = result;
+    }
   }
+
 }
 
 function calculateAll() {
